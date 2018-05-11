@@ -80,11 +80,12 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         contactos.add(new Modelo("Osvaldo", "Ramallo", "7345-4444"));
         contactos.add(new Modelo("Alfredo", "Garcia", "2364-2346"));
 
-        RecyclerView rv = (RecyclerView)this.findViewById(R.id.rv1);
+        RecyclerView rv = (RecyclerView) findViewById(R.id.rv1);
+        //RecyclerView rv = (RecyclerView)this.findViewById(R.id.rv1);
         rv.setLayoutManager(new GridLayoutManager(this,2));
+
         adaptador = new Adapter(this, contactos, this);
         rv.setAdapter(adaptador);
-
     }
 
 
@@ -97,11 +98,11 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     @Override
     public void onClick(View v) {
         //TODO: completar lo que falta
-
+          Intent i = new Intent(Intent.ACTION_CALL); //Uri.parse());
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 0);
         }else{
-            startActivity(callIntent);
+            startActivity(i);
         }
     }
 

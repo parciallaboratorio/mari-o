@@ -5,9 +5,13 @@ package ar.edu.utn.fra.lab5.a1erparcial;
  */
 
 public class Modelo {
+    private String Nombre;
+    private String Apellido;
+    private String telefono;
+
     public Modelo(String nombre, String apellido, String telefono) {
-        Nombre = nombre;
-        Apellido = apellido;
+        this.Nombre = nombre;
+        this.Apellido = apellido;
         this.telefono = telefono;
     }
 
@@ -34,8 +38,4 @@ public class Modelo {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-
-    private String Nombre;
-    private String Apellido;
-    private String telefono;
 }
