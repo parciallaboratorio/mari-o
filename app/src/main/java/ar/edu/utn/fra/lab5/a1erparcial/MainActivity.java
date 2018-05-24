@@ -39,52 +39,23 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     *   b.- realizar al menos 1 commit con la leyenda "entrega 1er Parcial, Alumno: Nombre y Apellido
     */
 
-
-    //TODO: Limpiar MainActivity, pasando lo necesario a las clases Controlador y VistaControlador para usar MVC
     Adapter adaptador;
-    ImageView imgContacto;
-    TextView main_nombre;
-    TextView main_telefono;
-    List<Modelo> contactos;
-    Button btn_llamar;
+    Modelo m;
+    VistaControlador vista;
+    Controlador controlador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        imgContacto= (ImageView) this.findViewById(R.id.vh_img);
-        main_nombre = (TextView) this.findViewById(R.id.main_nombre);
-        main_telefono = (TextView) this.findViewById(R.id.main_telefono);
-        btn_llamar = (Button) this.findViewById(R.id.btn_llamar);
-        btn_llamar.setOnClickListener(this);
-
-        contactos = new ArrayList<Modelo>();
-        contactos.add(new Modelo("Juan", "Garcia", "4444-4444"));
-        contactos.add(new Modelo("Pablo", "Lopez", "5555-45554"));
-        contactos.add(new Modelo("Ricardo", "Perez", "4124-1234"));
-        contactos.add(new Modelo("Raul", "Garnica", "4123-43244"));
-        contactos.add(new Modelo("Roberto", "Rossi", "1251-5123"));
-        contactos.add(new Modelo("Julieta", "H.", "5324-1252"));
-        contactos.add(new Modelo("Gabriel", "Veracruz", "1225-5423"));
-        contactos.add(new Modelo("Martin", "Paez", "4444-4124"));
-        contactos.add(new Modelo("Adrian", "Stocombo", "4444-1251"));
-        contactos.add(new Modelo("Walter", "Lilope", "4444-1524"));
-        contactos.add(new Modelo("Teodoro", "Tarcuro", "4444-1252"));
-        contactos.add(new Modelo("Celia", "Curro", "2314-1521"));
-        contactos.add(new Modelo("Belen", "Paz", "1523-4444"));
-        contactos.add(new Modelo("Tomas", "Tarifa", "3125-6234"));
-        contactos.add(new Modelo("Jazmin", "Solano", "1252-6234"));
-        contactos.add(new Modelo("Nicolas", "trejo", "2634-2346"));
-        contactos.add(new Modelo("Osvaldo", "Ramallo", "7345-4444"));
-        contactos.add(new Modelo("Alfredo", "Garcia", "2364-2346"));
+        vista = new VistaControlador(this);
+        controlador = new Controlador(vista);
 
         RecyclerView rv = (RecyclerView) findViewById(R.id.rv1);
-        //RecyclerView rv = (RecyclerView)this.findViewById(R.id.rv1);
         rv.setLayoutManager(new GridLayoutManager(this,2));
 
-        adaptador = new Adapter(this, contactos, this);
+        adaptador = new Adapter(this, controlador.getContactos() , this);
         rv.setAdapter(adaptador);
     }
 
@@ -93,12 +64,16 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     @Override
     public void onItemClick(View view, int position) {
         //TODO: Setear Textos
+        this.m = controlador.seleccion(position);
+        this.vista.main_nombre.setText(m.getNombre());
+        this.vista.main_telefono.setText(m.getTelefono());
     }
 
     @Override
     public void onClick(View v) {
         //TODO: completar lo que falta
-          Intent i = new Intent(Intent.ACTION_CALL); //Uri.parse());
+
+          Intent i = new Intent(Intent.ACTION_CALL, Uri.parse("tel: " + this.m.getTelefono()));
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 0);
         }else{
@@ -108,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //TODO: Cargar menu desde archivo xml
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
@@ -116,10 +91,10 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.salir:
-                //TODO: Completar para salir de la aplicacion
+                finish();
                 break;
             case R.id.nuevo:
-                //TODO: mostrar texto por consola
+                Log.d("push boton","boton 1");
                 break;
         }
         return super.onOptionsItemSelected(item);

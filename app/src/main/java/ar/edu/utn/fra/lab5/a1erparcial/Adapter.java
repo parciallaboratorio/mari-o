@@ -22,9 +22,8 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> implements ItemCli
     ItemClickListener listener;
 
     public Adapter(Context context, List<Modelo> modelo, ItemClickListener listener) {
-///        this.mLInflater =
+        this.mLInflater = LayoutInflater.from(context);
         this.contactos = modelo;
-        //TODO: Crear Interface ItemClickListener
         this.listener = listener;
     }
 
@@ -39,7 +38,6 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> implements ItemCli
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //TODO: completar lo que falta
         posicion = position;
         Modelo m = contactos.get(position);
         holder.nombre.setText(m.getNombre());
